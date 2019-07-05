@@ -25,6 +25,6 @@ Over more time:
 
 With other periodic functions for dynamic borders :
 
-![Market](https://github.com/Multielio/Market_simulator/blob/master/example3.png)
+![Market](https://github.com/Multielio/Market_simulator/blob/master/example4.png)
 
 [**Fig. 3:** Blue line is the price of the item over time. Green and orange are the dynamic boundaries of the price.]
