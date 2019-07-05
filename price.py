@@ -10,13 +10,6 @@ import matplotlib.pyplot as mp
 from scipy.interpolate import interp1d
 
 
-defaultItemStartPrice = 50  # Item default price
-defaultItemMaxPrice = defaultItemStartPrice*1.5
-defaultItemMinPrice = defaultItemStartPrice*0.5
-defaultBorder = defaultItemStartPrice*0.1  # Border arround maxprice or minprice where the price will want to go to the opposite direction
-defaultVolatility = 0.008 
-defaultMaxVol = 0.02  # Set the max volatility to avoid violent price moves
-
 
 def gen(old_price, volatility):
     rnd = random.random()
@@ -52,6 +45,16 @@ def genPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMin
     if visualize:
         mp.plot(np.linspace(0,numberOfPriceChanges-1,numberOfPriceChanges*10),continuousPriceOverTime(np.linspace(0,numberOfPriceChanges-1,numberOfPriceChanges*10)))  # just ploting to look at the curb
     return continuousPriceOverTime
+
+
+
+defaultItemStartPrice = 50  # Item default price
+defaultItemMaxPrice = defaultItemStartPrice*1.5
+defaultItemMinPrice = defaultItemStartPrice*0.5
+defaultBorder = defaultItemStartPrice*0.1  # Border arround maxprice or minprice where the price will want to go to the opposite direction
+defaultVolatility = 0.008 
+defaultMaxVol = 0.02  # Set the max volatility to avoid violent price moves
+
 
 continuousFunctionOfPricesOverTime =genPriceOverTime(700,defaultItemStartPrice,defaultItemMaxPrice,defaultItemMinPrice,defaultBorder,defaultVolatility,defaultMaxVol,visualize=True)
 
