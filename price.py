@@ -33,17 +33,24 @@ def genNextPrice(oldPrice, volatility, maxprice, minprice,border,maxvol):
 
 def genPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMinPrice, border, volatility, maxVol, visualize=False):
     t = np.arange(0,numberOfPriceChanges)
-    prices = []
-    prices.append(itemStartPrice)
+    prices = [itemStartPrice]
+    minPriceBorder = [itemMinPrice]
+    maxPriceBorder = [itemMaxPrice]
     currentPrice = itemStartPrice
     for j in t[1:] : 
         dynamicLowBorder = itemStartPrice -(itemStartPrice-itemMinPrice)*np.abs(np.sin((1/300)*j))
         dynamicHighBorder = itemStartPrice +(itemMaxPrice-itemStartPrice)*np.abs(np.sin((1/700)*j))
-        currentPrice = genNextPrice(currentPrice, volatility, dynamicHighBorder, dynamicLowBorder, border, maxVol) # here I implemented a way to make maxprice an minprice fluctuate.
+        currentPrice = genNextPrice(currentPrice, volatility, dynamicHighBorder, dynamicLowBorder, border, maxVol) # here I implemented a way to make maxprice and minprice fluctuate.
         prices.append(currentPrice)
+        minPriceBorder.append(dynamicLowBorder)
+        maxPriceBorder.append(dynamicHighBorder)
     continuousPriceOverTime = interp1d(t,prices)  
     if visualize:
+        continuousLowBorder = interp1d(t,minPriceBorder) 
+        continuousHighBorder = interp1d(t,maxPriceBorder) 
         mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousPriceOverTime(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))  # just ploting to look at the curb
+        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousLowBorder(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))
+        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousHighBorder(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))
     return continuousPriceOverTime
 
 
@@ -52,10 +59,10 @@ defaultItemStartPrice = 50  # Item default price
 defaultItemMaxPrice = defaultItemStartPrice*1.5
 defaultItemMinPrice = defaultItemStartPrice*0.5
 defaultBorder = defaultItemStartPrice*0.1  # Border arround maxprice or minprice where the price will want to go to the opposite direction
-defaultVolatility = 0.008 
+defaultVolatility = 0.01 
 defaultMaxVol = 0.02  # Set the max volatility to avoid violent price moves
 
 
-continuousFunctionOfPricesOverTime =genPriceOverTime(700,defaultItemStartPrice,defaultItemMaxPrice,defaultItemMinPrice,defaultBorder,defaultVolatility,defaultMaxVol,visualize=True)
+continuousFunctionOfPricesOverTime =genPriceOverTime(10000,defaultItemStartPrice,defaultItemMaxPrice,defaultItemMinPrice,defaultBorder,defaultVolatility,defaultMaxVol,visualize=True)
 
 # To evalute price at a given time use: continuousFunctionOfPricesOverTime(float).flat[0]
