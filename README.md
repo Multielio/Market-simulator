@@ -1,6 +1,9 @@
 # Market_simulator
 
 ![alt text](https://github.com/Multielio/Market_simulator/blob/master/example.png)
+Blue line is the price of the item over time.
+Green and orange are the dynamic boundaries of the price.
+
 
 This Python script simulate a market, given the initial price of the product, the volatility of the market (constant), the max price, the min price of the product and other parameters, it generate the item price over time randomly.
 A dynamic border is created to model market cycles and to avoid prices droping too fast.
