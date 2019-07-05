@@ -1,6 +1,6 @@
 # Market_simulator
 
-![alt text](https://github.com/Multielio/Market_simulator/blob/master/ex.png)
+![alt text](https://github.com/Multielio/Market_simulator/blob/master/example.png)
 
 This Python script simulate a market, given the initial price of the product, the volatility of the market (constant), the max price, the min price of the product and other parameters, it generate the item price over time randomly.
 
