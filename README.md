@@ -1,4 +1,4 @@
-# Market_simulator
+# Market simulator
 
 ![Market](https://github.com/Multielio/Market_simulator/blob/master/example.png)
 
