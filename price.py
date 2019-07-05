@@ -1,7 +1,6 @@
 # -*- coding: utf-8 -*-
 """
 Created on Sun Apr 28 15:14:25 2019
-
 @author: Multielio
 """
 import random
@@ -36,14 +35,15 @@ def genPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMin
     t = np.arange(0,numberOfPriceChanges)
     prices = []
     prices.append(itemStartPrice)
+    currentPrice = itemStartPrice
     for j in t[1:] : 
-        itemStartPrice = genNextPrice(itemStartPrice,volatility, itemStartPrice +(itemMaxPrice-itemStartPrice)*np.abs(np.sin((1/700)*j)), itemStartPrice -(itemStartPrice-itemMinPrice)*np.abs(np.sin((1/300)*j)),border,maxVol) # here I implemented a way to make maxprice an minprice fluctuate.
-        prices.append(itemStartPrice)
-    
-    continuousPriceOverTime = interp1d(t,prices)  # z is a fonction that takes a integer and return the item price
-    
+        dynamicLowBorder = itemStartPrice -(itemStartPrice-itemMinPrice)*np.abs(np.sin((1/300)*j))
+        dynamicHighBorder = itemStartPrice +(itemMaxPrice-itemStartPrice)*np.abs(np.sin((1/700)*j))
+        currentPrice = genNextPrice(currentPrice, volatility, dynamicHighBorder, dynamicLowBorder, border, maxVol) # here I implemented a way to make maxprice an minprice fluctuate.
+        prices.append(currentPrice)
+    continuousPriceOverTime = interp1d(t,prices)  
     if visualize:
-        mp.plot(np.linspace(0,numberOfPriceChanges-1,numberOfPriceChanges*10),continuousPriceOverTime(np.linspace(0,numberOfPriceChanges-1,numberOfPriceChanges*10)))  # just ploting to look at the curb
+        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousPriceOverTime(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))  # just ploting to look at the curb
     return continuousPriceOverTime
 
 
