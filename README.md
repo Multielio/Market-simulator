@@ -20,4 +20,4 @@ Over more time:
 
 ![Market](https://github.com/Multielio/Market_simulator/blob/master/example2.png)
 
-[**Fig. 1:** Blue line is the price of the item over time. Green and orange are the dynamic boundaries of the price.]
+[**Fig. 2:** Blue line is the price of the item over time. Green and orange are the dynamic boundaries of the price.]
