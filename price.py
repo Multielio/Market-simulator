@@ -91,7 +91,7 @@ defaultMaxVol = 0.02  # Set the max volatility to avoid violent price moves
 
 #continuousFunctionOfPricesOverTime =genPriceOverTime(10000,defaultItemStartPrice,defaultItemMaxPrice,defaultItemMinPrice,defaultBorder,defaultVolatility,defaultMaxVol,visualize=True)
 f1 = lambda  x : np.sin(x/300)
-f2 = lambda  x : np.sin(x*np.log(x))
+f2 = lambda  x : np.sin(np.log((x/5)%600+30))
 continuousFunctionOfPricesOverTime =advancedGenPriceOverTime(10000, defaultItemStartPrice, defaultItemMaxPrice, defaultItemMinPrice, defaultBorder, defaultVolatility, defaultMaxVol,f1, f2, visualize=True)
 
 
