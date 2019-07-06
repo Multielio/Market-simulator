@@ -48,9 +48,10 @@ def genPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMin
     if visualize:
         continuousLowBorder = interp1d(t,minPriceBorder) 
         continuousHighBorder = interp1d(t,maxPriceBorder) 
-        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousPriceOverTime(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))  # just ploting to look at the curb
-        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousLowBorder(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))
-        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousHighBorder(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))
+        lin = np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)
+        mp.plot(lin, continuousPriceOverTime(lin))  # just ploting to look at the curb
+        mp.plot(lin, continuousLowBorder(lin))
+        mp.plot(lin, continuousHighBorder(lin))
     return continuousPriceOverTime
 
 def advancedGenPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMinPrice, border, volatility, maxVol, f1, f2, visualize=False):
@@ -73,9 +74,10 @@ def advancedGenPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice,
     if visualize:
         continuousLowBorder = interp1d(t,minPriceBorder) 
         continuousHighBorder = interp1d(t,maxPriceBorder) 
-        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousPriceOverTime(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))  # just ploting to look at the curb
-        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousLowBorder(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))
-        mp.plot(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10), continuousHighBorder(np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)))
+        lin = np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)
+        mp.plot(lin, continuousPriceOverTime(lin))  # just ploting to look at the curb
+        mp.plot(lin, continuousLowBorder(lin))
+        mp.plot(lin, continuousHighBorder(lin))
     return continuousPriceOverTime
 
 
