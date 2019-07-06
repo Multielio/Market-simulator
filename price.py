@@ -31,30 +31,8 @@ def genNextPrice(oldPrice, volatility, maxprice, minprice,border,maxvol):
 
 
 
-def genPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMinPrice, border, volatility, maxVol, visualize=False):
-    t = np.arange(0,numberOfPriceChanges)
-    prices = [itemStartPrice]
-    minPriceBorder = [itemMinPrice]
-    maxPriceBorder = [itemMaxPrice]
-    currentPrice = itemStartPrice
-    for j in t[1:] : 
-        dynamicLowBorder = itemStartPrice -(itemStartPrice-itemMinPrice)*np.abs(np.sin((1/300)*j))
-        dynamicHighBorder = itemStartPrice +(itemMaxPrice-itemStartPrice)*np.abs(np.sin((1/700)*j))
-        currentPrice = genNextPrice(currentPrice, volatility, dynamicHighBorder, dynamicLowBorder, border, maxVol) # here I implemented a way to make maxprice and minprice fluctuate.
-        prices.append(currentPrice)
-        minPriceBorder.append(dynamicLowBorder)
-        maxPriceBorder.append(dynamicHighBorder)
-    continuousPriceOverTime = interp1d(t,prices)  
-    if visualize:
-        continuousLowBorder = interp1d(t,minPriceBorder) 
-        continuousHighBorder = interp1d(t,maxPriceBorder) 
-        lin = np.linspace(0, numberOfPriceChanges-1, numberOfPriceChanges*10)
-        mp.plot(lin, continuousPriceOverTime(lin))  # just ploting to look at the curb
-        mp.plot(lin, continuousLowBorder(lin))
-        mp.plot(lin, continuousHighBorder(lin))
-    return continuousPriceOverTime
 
-def advancedGenPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMinPrice, border, volatility, maxVol, f1, f2, visualize=False):
+def genPriceOverTime(numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMinPrice, border, volatility, maxVol, f1=lambda x: np.sin(x/300), f2=lambda x: np.sin(x/700), visualize=False):
     """
     f1 and f2 should be periodic functions that oscillate between -1 and 1
     """
@@ -91,10 +69,10 @@ defaultVolatility = 0.01
 defaultMaxVol = 0.02  # Set the max volatility to avoid violent price moves
 
 
-#continuousFunctionOfPricesOverTime =genPriceOverTime(10000,defaultItemStartPrice,defaultItemMaxPrice,defaultItemMinPrice,defaultBorder,defaultVolatility,defaultMaxVol,visualize=True)
+
 f1 = lambda  x : np.sin(x/300)
 f2 = lambda  x : np.sin(np.log((x/5)%600+30))
-continuousFunctionOfPricesOverTime =advancedGenPriceOverTime(10000, defaultItemStartPrice, defaultItemMaxPrice, defaultItemMinPrice, defaultBorder, defaultVolatility, defaultMaxVol,f1, f2, visualize=True)
+continuousFunctionOfPricesOverTime =genPriceOverTime(10000, defaultItemStartPrice, defaultItemMaxPrice, defaultItemMinPrice, defaultBorder, defaultVolatility, defaultMaxVol, f1, f2, visualize=True)
 
 
 
