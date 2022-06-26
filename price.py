@@ -10,7 +10,7 @@ from scipy.interpolate import interp1d
 
 
 class Item(object):
-    def  __init__(self,):
+    def  __init__(self):
         pass
          
     def gen(self, old_price, volatility):
@@ -33,8 +33,6 @@ class Item(object):
         return g	
 
 
-
-
     def genPriceOverTime(self, numberOfPriceChanges, itemStartPrice, itemMaxPrice, itemMinPrice, border, volatility, maxVol, f1=lambda x: np.sin(x/300), f2=lambda x: np.sin(x/700), visualize=False):
         """
         f1 and f2 should be periodic functions that oscillate between -1 and 1
@@ -45,8 +43,8 @@ class Item(object):
         maxPriceBorder = [itemMaxPrice]
         currentPrice = itemStartPrice
         for j in t[1:] : 
-            dynamicLowBorder = itemStartPrice -(itemStartPrice-itemMinPrice)*np.abs(f1(j))
-            dynamicHighBorder = itemStartPrice +(itemMaxPrice-itemStartPrice)*np.abs(f2(j))
+            dynamicLowBorder = itemStartPrice - (itemStartPrice-itemMinPrice)*np.abs(f1(j))
+            dynamicHighBorder = itemStartPrice + (itemMaxPrice-itemStartPrice)*np.abs(f2(j))
             currentPrice = self.genNextPrice(currentPrice, volatility, dynamicHighBorder, dynamicLowBorder, border, maxVol) # here I implemented a way to make maxprice and minprice fluctuate.
             prices.append(currentPrice)
             minPriceBorder.append(dynamicLowBorder)
@@ -59,6 +57,7 @@ class Item(object):
             mp.plot(lin, continuousPriceOverTime(lin))  # just ploting to look at the curb
             mp.plot(lin, continuousLowBorder(lin))
             mp.plot(lin, continuousHighBorder(lin))
+            mp.show()
         return continuousPriceOverTime
 
 
@@ -71,13 +70,20 @@ defaultBorder = defaultItemStartPrice*0.1  # Border arround maxprice or minprice
 defaultVolatility = 0.01 
 defaultMaxVol = 0.02  # Set the max volatility to avoid violent price moves
 
+f1 = lambda  x : np.sin(x/300) # Low Border
+f2 = lambda  x : np.sin(np.log((x/5)%600+30)) # High Border
 
-
-f1 = lambda  x : np.sin(x/300)
-f2 = lambda  x : np.sin(np.log((x/5)%600+30))
 item = Item()
-continuousFunctionOfPricesOverTime = item.genPriceOverTime(10000, defaultItemStartPrice, defaultItemMaxPrice, defaultItemMinPrice, defaultBorder, defaultVolatility, defaultMaxVol, f1, f2, visualize=True)
-
+continuousFunctionOfPricesOverTime = item.genPriceOverTime( 10000, 
+                                                            defaultItemStartPrice, 
+                                                            defaultItemMaxPrice, 
+                                                            defaultItemMinPrice, 
+                                                            defaultBorder, 
+                                                            defaultVolatility, 
+                                                            defaultMaxVol, 
+                                                            f1, 
+                                                            f2, 
+                                                            visualize=True)
 
 
 # To evalute price at a given time use: continuousFunctionOfPricesOverTime(float).flat[0]
